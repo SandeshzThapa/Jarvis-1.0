@@ -5,9 +5,6 @@ import musicLibrary
 import datetime
 import os
 import pyjokes
-import requests
-
-# Pip install pocketSphinx
 
 recognizer = sr.Recognizer()
 engine = pyttsx3.init()
@@ -16,18 +13,6 @@ def speak(text):
     # Convert text to speech.
     engine.say(text)
     engine.runAndWait()
-
-def get_weather(city):
-    # api_key = "ae787ae3e27c4079b6e154730242011"
-    url = f"https://api.weatherapi.com/v1/current.json?key=ae787ae3e27c4079b6e154730242011&q={city}&units=metric"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        weather = data['weather'][0]['description']
-        temperature = data['main']['temp']
-        return( f"The weather in {city} is {weather} with a temperature of {temperature} degrees Celsius.")
-    else:
-        return "Sorry , I couldn't response the weather details right now."
 
 def processCommand(c):
     if "open google" in c.lower():
@@ -45,9 +30,9 @@ def processCommand(c):
     elif c.lower().startswith("play"):
         song = c.lower().split(" ")[1]
         if song in musicLibrary.music:
-          link = musicLibrary.music[song]
-          speak(f"playing {song}")
-          webbrowser.open(link)
+            link = musicLibrary.music[song]
+            speak(f"playing {song}")
+            webbrowser.open(link)
         else:
             speak(f"Sorry, I couldn't find the song {song}.")
     elif "what time" in c.lower():
@@ -63,10 +48,6 @@ def processCommand(c):
     elif "tell me a joke" in c.lower():
         joke = pyjokes.get_joke()
         speak(joke)
-    elif "weather in" in c.lower():
-        city = c.lower().split("in")[1].strip()
-        weather_details = get_weather(city)
-        speak(weather_details)
     elif "volume up" in c.lower():
         os.system("amixer set Master 10%+")
         speak("Volume increased")
@@ -83,7 +64,6 @@ def processCommand(c):
         exit()              
     else:
         speak("Sorry, I didn't understand the command")
-
 
 def listenForCommand(timeout=5, phrase_time_limit=5):
     """Listen for a command and return it."""
@@ -122,3 +102,4 @@ if __name__ == "__main__":
             print(f"Speech recognition service error: {e}")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
+
