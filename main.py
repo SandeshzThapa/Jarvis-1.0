@@ -82,7 +82,7 @@ def processCommand(c):
         speak("Goodbye! Have a nice day!")
         exit()              
     else:
-        speak("Sorry, I didn't understand the command please give command clearly.")
+        speak("Sorry, I didn't understand the command")
 
 
 def listenForCommand(timeout=5, phrase_time_limit=5):
